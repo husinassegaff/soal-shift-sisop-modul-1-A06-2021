@@ -11,3 +11,22 @@
 #Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling 
 #sedikit adalah *Nama Region* dengan 
 #total keuntungan *Total Keuntungan (Profit)*
+
+#!/bin/bash
+ 
+awk 'BEGIN {FS = "\t";} 
+{
+    if(NR != 1){
+        profitPercentage = ($21 / ($18 - $21)) * 100;
+
+        if(maxProfitPercentage <= profitPercentage){
+            maxProfitPercentage = profitPercentage;
+            orderId = $2;
+            row = $1;
+        }
+    } 
+}
+
+END {printf ("Transaksi terakhir dengan profit percentage terbesar yaitu " orderId " dengan persentase " maxProfitPercentage "%.\n");}' ~/Downloads/Laporan-TokoShiSop.tsv
+
+
