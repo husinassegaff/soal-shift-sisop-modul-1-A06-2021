@@ -1,0 +1,5 @@
+#di-zip
+0 7 * * 1-5 bash ~/soal-shift-sisop-modul-1-A06-2021/soal3/soal3d.sh
+
+#tidak di-zip & di-unzip
+0 18 * * 1-5 unzip -P "$(date +"%d%m%Y")" ~/soal-shift-sisop-modul-1-A06-2021/soal3/Koleksi.zip -d ~/soal-shift-sisop-modul-1-A06-2021/soal3/ && rm ~/soal-shift-sisop-modul-1-A06-2021/soal3/Koleksi.zip
