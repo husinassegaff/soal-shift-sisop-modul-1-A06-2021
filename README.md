@@ -143,11 +143,69 @@ Jan 31 23:25:18 ubuntu.local ticky: INFO Closed ticket [#9876] (blossom)
 Jan 31 23:35:40 ubuntu.local ticky: INFO Created ticket [#5896] (mcintosh)
 ```
 
-
 ### Soal 1.b
-### Soal 1.c
-### Soal 1.d
+**Deskripsi:**\
+Menampilkan semua pesan berjenis 'ERROR' beserta jumlah kemunculannya
 
+**Pembahasan:**
+
+```
+grep -oP '(?<=ERROR ).*(?= )' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 1-2 > temps1b1.txt
+grep -oP '(?<=ERROR ).*(?= )' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 4-99 > temps1b2.txt
+paste -d '\t\t' temps1b2.txt temps1b1.txt
+```
+- Menggunakan `grep -oP` untuk mencari pola karakter yang diinginkan
+- Pada `?<=ERROR` berarti melakukan lookbehind dengan mencari kata ERROR tanpa memasukkan kata ERROR sebagai input
+- Pada `.*` berarti melakukan pencarian dengan karakter sembarang setelah kata ERROR (pada konteks kali ini)
+- Pada ?=<spasi> berarti melakukan lookahead agar output tidak menampilkan username
+- Untuk `syslog.log` merupakan file yang digunakan untuk mengeksekusi perintah yang diinginkan. Sehingga hasilnya sebagai berikut:
+- Dilakukan sorting agar pesan error yang sama (duplikat) terletak berjajar
+- Uniq -c dilakukan untuk mengeliminasi pesan yang sama (duplikat) dengan option -c untuk menampilkan jumlah muncul pesan error
+- cut -b 6-99 dilakukan untuk memotong spasi yang muncul pada awal string
+- sort -nr dilakukan untuk sorting kembali dari angka kemunculan paling banyak
+- Lalu bash baris pertama digunakan untuk memotong angka kemunculannya, sedangkan bash baris kedua digunakan untuk memotong pesan errornya
+- Setelah itu digabung kan pada perintah paste
+- Hasilnya akan seperti ini :
+
+```
+Timeout while retrieving information	15
+Connection to DB failed	13
+Tried to add information to closed ticket	12
+Permission denied while closing ticket	10
+The ticket was modified while updating	 9
+Ticket doesn't exist	 7
+```
+
+### Soal 1.c
+
+### Soal 1.d
+**Deskripsi:**\
+Menuliskan semua informasi dari soal 1.b dan dimasukkan ke dalam file error_message.csv
+
+**Pembahasan:**
+
+```
+grep -oP '(?<=ERROR\ ).*?(?=\ \()' syslog.log | sort | uniq -c | sort -nr | cut -b 6-7 > temp1.txt
+grep -oP '(?<=ERROR\ ).*?(?=\ \()' syslog.log | sort | uniq -c | sort -nr | cut -b 9-50 > temp2.txt
+sed 's/$/ ,/' temp2.txt > temp3.txt
+printf "Error,Count\n" > error_message.csv
+paste temp3.txt temp1.txt >> error_message.csv
+```
+- Baris satu dan dua sama dengan Soal 1.b
+- Perintah pada baris ketiga digunakan untuk menambahkan koma pada setiap baris di file temp2.txt dan dioutputkan ke file temp3.txt
+- Baris 4 memerintahkan untuk menulis Error,Count pada file error_message.csv dan menambah newline pada akhir baris
+- Baris 5 menempel hasil potongan ke error_message.csv dengan urutan pesan error, lalu banyak errornya
+- Hasilnya akan seperti ini :
+
+```
+Error,Count
+Timeout while retrieving information    15
+Connection to DB failed 13
+Tried to add information to closed ticket       12
+Permission denied while closing ticket  10
+The ticket was modified while updating   9
+Ticket doesn't exist     7
+```
 ---
 ## Soal 2 
 **[Source Code Soal 2](https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/Rafki/soal2/soal2_generate_laporan_ihir_shisop.sh)**
