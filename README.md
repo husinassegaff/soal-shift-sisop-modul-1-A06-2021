@@ -1,5 +1,11 @@
-# soal-shift-sisop-modul-1-A06-2021
-Jawaban soal praktikum Sistem Operasi modul 1
+# Soal-shift-sisop-modul-1-A06-2021
+Jawaban soal praktikum Sistem Operasi modul 1.
+
+**Anggota kelompok**:
+
+- Richard Asmarakandi - 05111940000017
+- Muhammad Rafki Mardi - 0511194000054
+- Husin Muhammad Assegaff - 05111940000127
 
 ---
 ## Tabel Konten
