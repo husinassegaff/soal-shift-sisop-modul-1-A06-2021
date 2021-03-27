@@ -11,28 +11,37 @@ do
 done
 
 declare -a arr
+declare -a files
+
+i=`ls $PWD/kucing/* | wc -l`
+
+IFS=$'\n' 
+files=($(sha1sum $PWD/kucing/* | sed 's/:.*//' | cat $1 $2))
 
 for f in $PWD/kucing/*
 do 
-    echo lewat;
+
+    echo $i
     # arr[i]=($(sha1sum $f | awk '{$1;}'))
     # sha1sum $f | cat ' '
     # cksum $f | awk '{print$1}'
-    [[ -f "$f" ]] && [[ ! -h "$file" ]] || continue
-
-        echo $arr[$cksum] | tr -d "[]" | tr "._." ' '
+    [[ -f "$f" ]] && [[ ! -h "$f" ]] || continue
 
     cksum=$(cksum<"$f" | tr ' ' _)
 
-    if [[ -n "{$arr[$cksum]}" ]] && [[ $arr[$cksum] -ne "$f" ]] && [[ $arr[$cksum] -ne 0 ]]
+    if [[ -n "{$arr[$cksum]}" ]] && [[ $arr[$cksum] != "$f" ]] 
     then
         #echo "found duplicate of '$arr[$cksum]'" >&2
-        echo $(cksum<"$f")
+        #echo $(cksum<"$f")
+        #echo $arr[$cksum] | tr -d "[]" | tr "._." ' '
+        echo $cksum | tr "._." ' '
         rm -f "$f"
-        echo $(cksum<"$f")
+
     else
         echo nyantol
         arr[$cksum]="$f"
     fi
 done
-echo ${arr[1]}
+
+echo ${files[1]}
+echo ${files[2]}
