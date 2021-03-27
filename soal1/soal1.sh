@@ -12,14 +12,12 @@ paste -d '\t\t' temps1b2.txt temps1b1.txt
 
 #nomor1c
 
+printf "Username,INFO,ERROR\n"
 user=$(grep -rohP "(\([a-zA-Z.]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))")
 
 for i in $user
 do
-    printf "USER\t= %s\n" $i;
-    printf "INFO\t= %d\n" $(grep -cP "INFO.*$i" syslog.log);
-    printf "ERROR\t= %d\n\n" $(grep -cP "ERROR.*$i" syslog.log);
-
+     printf "%s,%d,%d\n" $i $(grep -cP "INFO.*$i" syslog.log) $(grep -cP "ERROR.*$i" syslog.log);
 done
 
 #nomor1d
@@ -29,4 +27,14 @@ grep -oP '(?<=ERROR\ ).*?(?=\ \()' syslog.log | sort | uniq -c | sort -nr | cut 
 sed 's/$/ ,/' temp2.txt > temp3.txt
 printf "Error,Count\n" > error_message.csv
 paste temp3.txt temp1.txt >> error_message.csv
+
+#nomor1e
+
+printf "Username,INFO,ERROR\n" > user_statistic.csv
+user=$(grep -rohP "(\([a-zA-Z.]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))")
+
+for i in $user
+do
+    printf "%s,%d,%d\n" $i $(grep -cP "INFO.*$i" syslog.log) $(grep -cP "ERROR.*$i" syslog.log);
+done | sort >> user_statistic.csv;
 
