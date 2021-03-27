@@ -255,7 +255,7 @@ Ticket doesn't exist     7
 ```
 ---
 ## Soal 2 
-**[Source Code Soal 2](https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/Rafki/soal2/soal2_generate_laporan_ihir_shisop.sh)**
+**[Source Code Soal 2](https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/main/soal2/soal2_generate_laporan_ihir_shisop.sh)**
 
 **Deskripsi:**\
 Membuat laporan untuk rapat tahunan sebuah startup bernama “TokoShiSop” berupa kesimpulan-kesimpulan, yakni:
