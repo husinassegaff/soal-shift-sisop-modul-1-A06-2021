@@ -177,6 +177,53 @@ Ticket doesn't exist	 7
 ```
 
 ### Soal 1.c
+**Deskripsi:**\
+Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*.
+
+**Pembahasan:**
+
+```
+printf "Username,INFO,ERROR\n"
+user=$(grep -rohP "(\([a-zA-Z.]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))")
+
+for i in $user
+do
+     printf "%s,%d,%d\n" $i $(grep -cP "INFO.*$i" syslog.log) $(grep -cP "ERROR.*$i" syslog.log);
+done
+```
+
+- Pertama mencetak "Username,INFO,ERROR" di header
+- kemudian membuat variabel `user` yang diisi nama-nama user dari `syslog.log` dengan cara diseleksi menggunakan `$(grep -rohP "(\([a-zA-Z.]+\))"` (hanya saja nama user masih terdapat tanda kurung)
+- Kemudian disorting dan diseleksi / dipilih cukup 1 dari setiap nama-nama user yang sama menggunakan `sort` dan `uniq`
+- Berhubung masih ada tanda kurung "(username)", maka dilakukan seleksi kembali untuk hanya mengambil karakter selain tanda kurung tersebut menggunakan `grep -oP "(?<=\().*(?=\))")`
+- Selanjutnya, setelah mendapat nama username dan dimasukkan ke variabel `user`. Maka dilakukan *looping* untuk mencetak jumlah kemunculan log ERROR dan INFO pada setiap user dengan perintah `printf "%s,%d,%d\n" $i $(grep -cP "INFO.*$i" syslog.log) $(grep -cP "ERROR.*$i" syslog.log)`
+- Pada perintah di atas, untuk **%d** pertama berasal dari pencarian menggunakan grep dengan dihitung berapa kali muncul kata **INFO** pada user yang ditunjuk dari *lopping*
+- Adapun untuk **%d** yang kedua perbedaannya hanya pada kata yang dicari dan dihitung kemunculannya adalah **ERROR** pada user yang ditunjuk berdasarkan *looping*
+- Sehingga outputnya sebagai berikut,
+
+```
+Username,INFO,ERROR
+ac,4,8
+ahmed.miller,2,4
+blossom,2,6
+bpacheco,0,2
+breee,1,5
+britanni,1,1
+enim.non,2,3
+flavia,0,5
+jackowens,2,4
+kirknixon,2,1
+mai.hendrix,0,3
+mcintosh,4,3
+mdouglas,2,3
+montanap,0,4
+noel,6,3
+nonummy,2,3
+oren,2,7
+rr.robinson,2,1
+sri,2,2
+xlg,0,4
+```
 
 ### Soal 1.d
 **Deskripsi:**\
