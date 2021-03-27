@@ -12,36 +12,38 @@ done
 
 declare -a arr
 declare -a files
+declare -a uf
 
 i=`ls $PWD/kucing/* | wc -l`
 
 IFS=$'\n' 
-files=($(sha1sum $PWD/kucing/* | sed 's/:.*//' | cat $1 $2))
+files=($(sha1sum $PWD/kucing/* | sed 's/:.*//' | cut -b 1-40))
+uf=($(echo "${files[*]}" | uniq))
 
-for f in $PWD/kucing/*
-do 
+echo ${uf[1]}
+echo ${uf[2]}
+echo ${uf[0]}
 
-    echo $i
-    # arr[i]=($(sha1sum $f | awk '{$1;}'))
-    # sha1sum $f | cat ' '
-    # cksum $f | awk '{print$1}'
-    [[ -f "$f" ]] && [[ ! -h "$f" ]] || continue
+m=${#uf[*]}
 
-    cksum=$(cksum<"$f" | tr ' ' _)
+echo $m
 
-    if [[ -n "{$arr[$cksum]}" ]] && [[ $arr[$cksum] != "$f" ]] 
-    then
-        #echo "found duplicate of '$arr[$cksum]'" >&2
-        #echo $(cksum<"$f")
-        #echo $arr[$cksum] | tr -d "[]" | tr "._." ' '
-        echo $cksum | tr "._." ' '
-        rm -f "$f"
-
-    else
-        echo nyantol
-        arr[$cksum]="$f"
-    fi
+for((num=0; num<$m; num=num+1))
+do
+flag=0
+    for f in $PWD/kucing/*
+    do 
+        sha1sum=($(sha1sum<"$f" | cut -b 1-40))
+        if [[ $((10#$sha1sum)) -eq $((10#${uf[$num]})) ]] && [[ $flag == 0 ]] 
+        then
+            echo kehapus 1
+            flag=1
+        elif [[ $((10#$sha1sum)) -eq $((10#${uf[$num]})) ]] && [[ $flag == 1 ]]
+        then    
+            echo ada yang sama
+            rm -f "$f"
+        else
+            continue
+        fi
+    done
 done
-
-echo ${files[1]}
-echo ${files[2]}
