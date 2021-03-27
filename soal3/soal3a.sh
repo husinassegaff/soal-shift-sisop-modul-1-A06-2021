@@ -33,7 +33,7 @@ do
 flag=0
     for f in $PWD/kucing/*
     do 
-        sha1sum=$(sha1sum<"$f" | cut -b 1-40)
+        sha1sum=($(sha1sum<"$f" | cut -b 1-40))
         if [[ $((10#$sha1sum)) -eq $((10#${uf[$num]})) ]] && [[ $flag == 0 ]] 
         then
             echo kehapus 1
