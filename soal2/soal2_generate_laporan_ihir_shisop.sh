@@ -21,7 +21,7 @@ END {
  }' Laporan-TokoShiSop.tsv >> hasil.txt
 
 (echo "Daftar nama customer di Alburquerque pada tahun 2017 antara lain:"
-awk -F "\t" '/Albuquerque/&&/.....-17/ NR > 1  {print$7}' Laporan-TokoShiSop.tsv | uniq) >> hasil.txt
+awk -F "\t" '/Albuquerque/&&/.....-17/ NR > 1  {if((match($3,"-17")) print $7}' Laporan-TokoShiSop.tsv | uniq) >> hasil.txt
 
 awk '
 
