@@ -14,6 +14,7 @@ Jawaban soal praktikum Sistem Operasi modul 1.
   - [Soal 1.b](#soal-1b)
   - [Soal 1.c](#soal-1c)
   - [Soal 1.d](#soal-1d)
+  - [Soal 1.e](#soal-1e)
 
 - [Soal 2](#soal-2)
   - [Soal 2.a](#soal-2a)
@@ -156,8 +157,8 @@ Menampilkan semua pesan berjenis 'ERROR' beserta jumlah kemunculannya
 **Pembahasan:**
 
 ```
-grep -oP '(?<=ERROR ).*(?= )' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 1-2 > temps1b1.txt
-grep -oP '(?<=ERROR ).*(?= )' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 4-99 > temps1b2.txt
+grep -oP '(?<=ERROR).*(?=\ \()' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 1-2 > temps1b1.txt
+grep -oP '(?<=ERROR).*(?=\ \()' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 4-99 > temps1b2.txt
 paste -d '\t\t' temps1b2.txt temps1b1.txt
 ```
 - Menggunakan `grep -oP` untuk mencari pola karakter yang diinginkan
@@ -190,26 +191,28 @@ Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*.
 
 ```
 printf "Username,INFO,ERROR\n"
-user=$(grep -rohP "(\([a-zA-Z.]+\))" syslog.log | sort | uniq | grep -oP "(?<=\().*(?=\))")
+user=$(grep -oP "(?<=\().*(?=\))" syslog.log | sort | uniq)
 
 for i in $user
 do
-     printf "%s,%d,%d\n" $i $(grep -cP "INFO.*$i" syslog.log) $(grep -cP "ERROR.*$i" syslog.log);
+     printf "%s,%d,%d\n" $i $(grep -cP "INFO.*(?<=\()$i" syslog.log) $(grep -cP "ERROR.*(?<=\()$i" syslog.log);
 done
 ```
 
-- Pertama mencetak "Username,INFO,ERROR" di header
-- kemudian membuat variabel `user` yang diisi nama-nama user dari `syslog.log` dengan cara diseleksi menggunakan `$(grep -rohP "(\([a-zA-Z.]+\))"` (hanya saja nama user masih terdapat tanda kurung)
+- Pertama mencetak "Username,INFO,ERROR" di header file menggunakan printf
+- kemudian membuat variabel `user` yang diisi nama-nama user dari `syslog.log` dengan menggunakan `grep -oP "(?<=\().*(?=\))" syslog.log`. 
+- `-o` berguna untuk menampilkan karakter berdasarkan pola atau *pattern* dan `P` sebagai *Perl Regular Expression* yakni untuk menjalankan *pattern* yang digunakan dan berbentuk regex
+- Maksud dari  `"(?<=\().*(?=\))"` adalah menggunakan **look behind** `"(?<=\()` untuk melihat karakter selanjutnya, setelah karakter '(' dengan menghilangkan makna khususnya menggunakan '\'
+- Lalu, `.*` untuk melakukan pencarian karakter sebarang setelah '('. Dan juga menggunakan **look ahead** `(?=\))"` untuk hanya melihat karakter sebelum ')' dengan '\' berfungsi untuk menghilangkan makna khusus kurung tersebut
 - Kemudian disorting dan diseleksi / dipilih cukup 1 dari setiap nama-nama user yang sama menggunakan `sort` dan `uniq`
-- Berhubung masih ada tanda kurung "(username)", maka dilakukan seleksi kembali untuk hanya mengambil karakter selain tanda kurung tersebut menggunakan `grep -oP "(?<=\().*(?=\))")`
-- Selanjutnya, setelah mendapat nama username dan dimasukkan ke variabel `user`. Maka dilakukan *looping* untuk mencetak jumlah kemunculan log ERROR dan INFO pada setiap user dengan perintah `printf "%s,%d,%d\n" $i $(grep -cP "INFO.*$i" syslog.log) $(grep -cP "ERROR.*$i" syslog.log)`
-- Pada perintah di atas, untuk **%d** pertama berasal dari pencarian menggunakan grep dengan dihitung berapa kali muncul kata **INFO** pada user yang ditunjuk dari *lopping*
-- Adapun untuk **%d** yang kedua perbedaannya hanya pada kata yang dicari dan dihitung kemunculannya adalah **ERROR** pada user yang ditunjuk berdasarkan *looping*
+- Selanjutnya, setelah mendapat nama username dan dimasukkan ke variabel `user`. Maka dilakukan *looping* untuk mencetak jumlah kemunculan log ERROR dan INFO pada setiap user dengan perintah `printf "%s,%d,%d\n" $i $(grep -cP "INFO.*(?<=\()$i" syslog.log) $(grep -cP "ERROR.*(?<=\()$i" syslog.log)`
+- Pada perintah di atas, untuk **%d** pertama berasal dari pencarian menggunakan `$(grep -cP "INFO.*(?<=\()$i" syslog.log)` untuk menghitung berapa kali muncul kata **INFO** dengan menggunakan **look behind** pada karakter'(' untuk memastikan bahwa langsung menunjuk pada **$i** atau nama *user* 
+- Adapun untuk **%d** yang kedua ` $(grep -cP "ERROR.*(?<=\()$i" syslog.log)`, perbedaannya hanya pada kata yang dicari dan dihitung kemunculannya adalah **ERROR**
 - Sehingga outputnya sebagai berikut,
 
 ```
 Username,INFO,ERROR
-ac,4,8
+ac,2,2
 ahmed.miller,2,4
 blossom,2,6
 bpacheco,0,2
@@ -236,7 +239,6 @@ xlg,0,4
 Menuliskan semua informasi dari soal 1.b dan dimasukkan ke dalam file error_message.csv
 
 **Pembahasan:**
-
 ```
 grep -oP '(?<=ERROR\ ).*?(?=\ \()' syslog.log | sort | uniq -c | sort -nr | cut -b 6-7 > temp1.txt
 grep -oP '(?<=ERROR\ ).*?(?=\ \()' syslog.log | sort | uniq -c | sort -nr | cut -b 9-50 > temp2.txt
@@ -259,6 +261,26 @@ Permission denied while closing ticket  10
 The ticket was modified while updating   9
 Ticket doesn't exist     7
 ```
+
+### Soal 1.e
+**Deskripsi:**\
+Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*, kemudian disimpan pada file **user_statistic.csv** dengan nama *user* diurutkan secara *ascending*.
+
+**Pembahasan:**
+```
+printf "Username,INFO,ERROR\n" > user_statistic.csv
+user=$(grep -oP "(?<=\().*(?=\))" syslog.log | sort | uniq)
+
+for i in $user
+do
+    printf "%s,%d,%d\n" $i $(grep -cP "INFO.*(?<=\()($i)" syslog.log) $(grep -cP "ERROR.*(?<=\()($i)" syslog.log);
+done | sort >> user_statistic.csv;
+```
+- Berhubung penjelasannya sama seperti nomor **1c**, maka bisa dilihat [disini](#soal-1c) pembahasan lengkapnya
+- Perbedaannya pada saat setelah melakukan *looping*, dilakukan sort secara *ascending* untuk mengurutkan hasilnya berdasarkan nama *user*
+- Kemudian, hasilnya disimpan pada file **user_statistic.csv** dengan menggunakan **operator redirect** `>>` yang berfungsi untuk memasukkan hasilnya ke file tersebut
+
+
 ---
 ## Soal 2 
 **[Source Code Soal 2](https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/main/soal2/soal2_generate_laporan_ihir_shisop.sh)**
