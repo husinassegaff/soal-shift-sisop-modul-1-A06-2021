@@ -17,7 +17,7 @@ user=$(grep -oP "(?<=\().*(?=\))" syslog.log | sort | uniq)
 
 for i in $user
 do
-     printf "%s,%d,%d\n" $i $(grep -cP "INFO.*(?<=\()($i)" syslog.log) $(grep -cP "ERROR.*(?<=\()($i)" syslog.log);
+     printf "%s,%d,%d\n" $i $(grep -cP "INFO.*(?<=\()$i" syslog.log) $(grep -cP "ERROR.*(?<=\()$i" syslog.log);
 done
 
 #nomor1d
