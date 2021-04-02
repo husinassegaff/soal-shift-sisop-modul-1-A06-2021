@@ -405,6 +405,95 @@ Cukup bingung apakah tiap sub soal menggunakan awk tersendiri apa harus *single*
 ## Soal 3 
 
 ### Soal 3.a
+
+**Deskripsi:**\
+Mengunduh 23 gambar dari link https://loremflickr.com/320/240/kitten dengan menyimpannya ke file **Foto.log**. Juga memastikan tidak ada gambar yang sama serta menyimpan gambar dengan penamaan **Koleksi_XX**, contoh Koleksi_01, Koleksi_02
+
+**Pembahasan:**
+```
+#!/bin/bash
+
+number=1
+while [ $number -le 23 ]
+ do
+	wget -a Foto.log -nv https://loremflickr.com/320/240/kitten
+	number=$((number+1))
+ done
+
+md5sum * | sort | awk 'BEGIN{hash = ""} $1 == hash {print $2} {hash = $1}' | xargs rm
+
+s=1
+for file in *
+do
+	if [[ $file == *"kitten"* ]]
+	then
+		namafile=`printf "Koleksi_%02d.jpg" $s`
+		mv $file $namafile
+		s=$((s+1))
+	fi
+done
+```
+
 ### Soal 3.b
+
+**Deskripsi:**
+Sama seperti nomor **3a**, hanya saja script dijalankan secara otomatis sehari sekali pada jam 8 malam dengan format tanggal,
+- Dari tanggal 1 dijalankan 7 hari sekali
+- Dari tanggal 2 dijalankan 4 hari sekali
+Agar lebih rapi, gambar yang telah diunduh beserta log, dipindahkan ke folder yang format penamaannya mengikuti tanggalnya, **DD-MM-YYY**
+
+**Pembahasan:**
+#### **A. Bash**
+```
+bash ./soal3a.sh
+
+current_date=$(date +"%d-%m-%Y")
+mkdir "$current_date"
+mv ./Koleksi_* "./$current_date/"
+mv ./Foto.log "./$current_date/"
+
+echo "Moved to $current_date"
+```
+- Berhubung yang diminta sama seperti nomor **3a**, maka melakukan eksekusi jawaban nomor tersebut dengan menggunakan `bash ./soal3a.sh`
+- Kemudian, `current_date=$(date +"%d-%m-%Y")`  berfungsi untuk membuat variabel **current_date** yang menyimpan tanggal pada saat eksekusi dengan format **DD-MM-YY**
+- Setelah itu, membuat *directory* atau folder dari variabel tersebut menggunakan `mkdir "$current_date"`
+- Lalu, `mv ./Koleksi_* "./$current_date/"` berfungsi untuk memindahkan seluruh file foto ke folder yang telah dibuat sebelumnya
+- Begitu juga dengan file **Foto.log** juga dipindahkan ke folder tersebut dengan cara `mv ./Foto.log "./$current_date/"`
+  
+#### **B. Crontab**
+```
+0 20 1-31/7,2-31/4 * * bash ~/soal-shift-sisop-modul-1-A06-2021/soal3/soal3b.sh
+```
+- Sesuai permintaan soal,script ini akan mengeksekusi script **soal3b.sh** dengan rincian `0 20` yang menunjukkan waktu jam 8 malam
+- Kemudian, `1-31/7,2-31/4` bermakna dijalankan pada tanggal 1 sampai tanggal 31 dengan aturan 7 hari sekali. Juga dari tanggal 2 sampai tanggal 31 dengan aturan 4 hari sekali.
+- Dan yang terakhir, `* *` yang mana bintang pertama menunjukkan dilakukan di semua bulan dan bintang kedua menunjukkan dieksekusi pada semua hari tanpa terkecuali.
+  
 ### Soal 3.c
+
+**Deskripsi:**
+Selain mengunduh gambar kucing, juga mengunduh gambar kelinci pada link https://loremflickr.com/320/240/bunny dengan cara bergantian (bebas gambar mana yang didahulukan). Adapun untuk membedakan gambar kucing dan kelinci, maka dibuatkan folder dengan nama awalan **Kucing_DD-MM-YYY**Y dan **Kelinci_DD-MM-YY**
+
+**Pembahasan:**
+```
+
+```
+
 ### Soal 3.d
+
+**Deskripsi:**
+Membuat script yang dapat memindahkan seluruh folder ke bentuk zip dengan nama **Koleksi.zip** dan menguncinya dengan password berupa tanggal saat itu, yakni MMDDYYYY
+
+**Pembahasan:**
+```
+
+```
+
+### Soal 3.e
+
+**Deskripsi:**
+Lanjutan dari nomor **3d**, yaitu dilakukan perintah zip setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain waktu tersebut, tidak dilakukan zip dan filenya di-unzip
+
+**Pembahasan:**
+```
+
+```
