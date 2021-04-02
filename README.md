@@ -470,30 +470,20 @@ echo "Moved to $current_date"
   
 ### Soal 3.c
 
-**Deskripsi:**
-Selain mengunduh gambar kucing, juga mengunduh gambar kelinci pada link https://loremflickr.com/320/240/bunny dengan cara bergantian (bebas gambar mana yang didahulukan). Adapun untuk membedakan gambar kucing dan kelinci, maka dibuatkan folder dengan nama awalan **Kucing_DD-MM-YYY**Y dan **Kelinci_DD-MM-YY**
-
-**Pembahasan:**
-```
-
-```
-
 ### Soal 3.d
-
-**Deskripsi:**
-Membuat script yang dapat memindahkan seluruh folder ke bentuk zip dengan nama **Koleksi.zip** dan menguncinya dengan password berupa tanggal saat itu, yakni MMDDYYYY
-
-**Pembahasan:**
-```
-
-```
-
-### Soal 3.e
-
-**Deskripsi:**
-Lanjutan dari nomor **3d**, yaitu dilakukan perintah zip setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain waktu tersebut, tidak dilakukan zip dan filenya di-unzip
+**Deskripsi:**\
+Meng-zip koleksi foto dengan password tanggal sekarang dan berformat "MMDDYYYY"
 
 **Pembahasan:**
 ```
-
+#Mendapatkan tanggal hari ini untuk digunakan sebagai password zip dengan format bulan,tanggal,dan tahun 4 digit
+now=$(date +'%m%d%Y')
+#Mengzip file
+zip -rem Koleksi.zip Kucing_* Kelinci_* -P "$now"
 ```
+- Mendapatkan tanggal sekarang dengan format "MMDDYYYY" dapat dilakukan dengan `$(date +'%m%d%Y')` yang lalu dioper dalam variabel "now".
+- Menggunakan perintah zip dengan opsi sebagai berikut :
+- `-r` digunakan untuk meng-zip file secara rekursi
+- `-e` diperlukan agar zip dapat ter-Encrypt
+- `-m` digunakan untuk memindahkan spesifik file ke zip dan menghapus file yang telah dipindahkan
+- `-P "$now"` digunakan untuk menambahkan password dengan nilai password adalah isi dari variabel "now"
