@@ -17,7 +17,7 @@ declare -a uf
 i=`ls $PWD/kucing/* | wc -l`
 
 IFS=$'\n' 
-files=($(sha1sum $PWD/kucing/* | sed 's/:.*//' | cut -b 1-40))
+files=($(sha1sum $PWD/kucing/* | sed 's/:.*//' | cut -c 1-40))
 uf=($(echo "${files[*]}" | uniq))
 
 echo ${uf[1]}
@@ -33,12 +33,11 @@ do
 flag=0
     for f in $PWD/kucing/*
     do 
-        sha1sum=($(sha1sum<"$f" | cut -b 1-40))
-        if [[ $((10#$sha1sum)) -eq $((10#${uf[$num]})) ]] && [[ $flag == 0 ]] 
+        sha1sum=($(sha1sum<"$f" | cut -c 1-40))
+        if [[ $sha1sum -eq ${uf[$num]} ]] && [[ $flag == 0 ]] 
         then
-            echo kehapus 1
             flag=1
-        elif [[ $((10#$sha1sum)) -eq $((10#${uf[$num]})) ]] && [[ $flag == 1 ]]
+        elif [[ $sha1sum -eq ${uf[$num]} ]] && [[ $flag == 1 ]]
         then    
             echo ada yang sama
             rm -f "$f"
@@ -47,3 +46,5 @@ flag=0
         fi
     done
 done
+
+echo $m
