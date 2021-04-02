@@ -351,12 +351,14 @@ Mencari daftar nama pelanggan yang berasal dari Albuquerque yang pernah bertrans
 
 **Pembahasan:**
 ```
-(echo "Daftar nama customer di Alburquerque pada tahun 2017 antara lain:"
-awk -F "\t" '/Albuquerque/&&/.....-17/ NR > 1  {print$7}' Laporan-TokoShiSop.tsv | uniq) >> hasil.txt
+(echo "Daftar nama customer di Alburquerque pada tahun 2017 antara lain:" ;
+awk -F "\t" '/Albuquerque/&&/.....-17/&&$3 ~ /.....-17/ NR > 1  {print$7}' Laporan-TokoShiSop.tsv | uniq) >> hasil.txt
 ```
 - Script `echo "..."` untuk memenuhi syarat format jawaban
 - Standar opsi awk `-F "\t"` menyatakan *filed separator (FS)* berupa `\t` alias `TAB`, sehingga tiap kolom ke-n akan menempati `$n`.
-- Bagian `/Albuquerque/&&$3 ~ /.....-17/` merupakan *regular expression* yang mensyaratkan bahwa dalam baris data harus terdapat nilai `Albuquerque` dan `.` berupa *wildcard* berupa karakter bebas, `$3 ~ /.....-17/` untuk memilih data `Tanggal Transaksi` dengan tahun transkasi 2017.
+- Bagian `/Albuquerque/&&/.....-17/&&$3 ~ /.....-17/` merupakan *regular expression* yang mensyaratkan bahwa dalam baris data harus terdapat nilai `Albuquerque` dan `.` berupa *wildcard* berupa karakter bebas. 
+- Ekspresi `.....-17` untuk menghimpun semua rekaman dengan tahun 2017 dan Albuquerque.
+- Ekspresi`$3 ~ /.....-17/` untuk filter terhadap `Tanggal Transaksi` dengan tahun transkasi 2017.
 - Perintah `{print$7}` akan mencetak bagian kolom ke 7 dari file `Laporan-TokoShiSop.tsv` dan disaring dengan *script bash* `| uniq` lalu masuk ke `hasil.txt` menghasilkan:
 - Tanda kurung di awal dan di akhiran agar dimasukan sekaligus ke `hasil.txt`
 
