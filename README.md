@@ -416,12 +416,13 @@ Wilayah bagain (region) yang memiliki total keuntungan (profit) yang
 paling sedikit adalah Central dengan total keuntungan 39706 (Profit).
 ```
 
-**Bukti   :**
+**Bukti :**
 
 ![Bukti2D](soal2/Bukti2D.png)
 
 **Kendala :**\
 Tidak ada kendala dalam soal ini.
+
 ---
 ## Soal 3 
 
