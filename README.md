@@ -337,6 +337,12 @@ Transaksi terakhir dengan profit percentage terbesar yaitu CA-2017-121559
 dengan persentase 100.00%
 ```
 
+**Bukti   :**
+
+![Bukti2A](soal2/Bukti2A.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ### Soal 2.b
 
@@ -350,7 +356,7 @@ awk -F "\t" '/Albuquerque/&&/.....-17/ NR > 1  {print$7}' Laporan-TokoShiSop.tsv
 ```
 - Script `echo "..."` untuk memenuhi syarat format jawaban
 - Standar opsi awk `-F "\t"` menyatakan *filed separator (FS)* berupa `\t` alias `TAB`, sehingga tiap kolom ke-n akan menempati `$n`.
-- Bagian `/Albuquerque/&&/.....-17/` merupakan *regular expression* yang mensyaratkan bahwa dalam baris data harus terdapat nilai `Albuquerque` dan `.` berupa *wildcard* berupa karakter bebas, `.....-17` untuk memilih data dengan tahun transkasi 2017.
+- Bagian `/Albuquerque/&&$3 ~ /.....-17/` merupakan *regular expression* yang mensyaratkan bahwa dalam baris data harus terdapat nilai `Albuquerque` dan `.` berupa *wildcard* berupa karakter bebas, `$3 ~ /.....-17/` untuk memilih data `Tanggal Transaksi` dengan tahun transkasi 2017.
 - Perintah `{print$7}` akan mencetak bagian kolom ke 7 dari file `Laporan-TokoShiSop.tsv` dan disaring dengan *script bash* `| uniq` lalu masuk ke `hasil.txt` menghasilkan:
 - Tanda kurung di awal dan di akhiran agar dimasukan sekaligus ke `hasil.txt`
 
@@ -361,6 +367,12 @@ Benjamin Farhat
 David Wiener
 Susan Vittorini
 ```
+**Bukti   :**
+
+![Bukti2B](soal2/Bukti2B.png)
+
+**Kendala :**
+Masalah saat memilih spesifik kolom tahun transaksi 2017.
 
 ### Soal 2.c
 
@@ -378,7 +390,12 @@ Mencari segment customer dan jumlah transaksinya yang paling sedikit.
 Tipe segmen customer yang penjualannya paling sedikit adalah Home Office 
 dengan total transaksi 1783.
 ```
+**Bukti   :**
 
+![Bukti2C](soal2/Bukti2C.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ### Soal 2.d
 
@@ -397,10 +414,12 @@ Wilayah bagain (region) yang memiliki total keuntungan (profit) yang
 paling sedikit adalah Central dengan total keuntungan 39706 (Profit).
 ```
 
+**Bukti   :**
 
-**Komentar:**\
-Cukup bingung apakah tiap sub soal menggunakan awk tersendiri apa harus *single* AWK. Terhambat saat ekstraksi nama yang unik.
+![Bukti2D](soal2/Bukti2D.png)
 
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 ---
 ## Soal 3 
 
