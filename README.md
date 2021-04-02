@@ -419,8 +419,9 @@ now=$(date +'%m%d%Y')
 #Mengzip file
 zip -rem Koleksi.zip Kucing_* Kelinci_* -P "$now"
 ```
-- Mendapatkan tanggal sekarang dengan format "MMDDYYYY" dapat dilakukan dengan `$(date +'%m%d%Y')` yang lalu dioper dalam variabel now.
+- Mendapatkan tanggal sekarang dengan format "MMDDYYYY" dapat dilakukan dengan `$(date +'%m%d%Y')` yang lalu dioper dalam variabel "now".
 - Menggunakan perintah zip dengan opsi sebagai berikut :
-  `-r` digunakan untuk meng-zip file secara rekursi
-  `-e` diperlukan agar zip dapat ter-Encrypt
-  `-m` digunakan untuk memindahkan spesifik file ke zip dan menghapus file yang telah dipindahkan
+- `-r` digunakan untuk meng-zip file secara rekursi
+- `-e` diperlukan agar zip dapat ter-Encrypt
+- `-m` digunakan untuk memindahkan spesifik file ke zip dan menghapus file yang telah dipindahkan
+- `-P "$now"` digunakan untuk menambahkan password dengan nilai password adalah isi dari variabel "now"
