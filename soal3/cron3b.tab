@@ -1,1 +1,1 @@
-0 7 * * 1-5 bash ~/soal-shift-sisop-modul-1-A06-2021/soal3/soal3b.sh
+0 20 1-31/7,2-31/4 * * bash ~/soal-shift-sisop-modul-1-A06-2021/soal3/soal3b.sh
