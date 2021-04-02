@@ -407,4 +407,20 @@ Cukup bingung apakah tiap sub soal menggunakan awk tersendiri apa harus *single*
 ### Soal 3.a
 ### Soal 3.b
 ### Soal 3.c
+
 ### Soal 3.d
+**Deskripsi:**\
+Meng-zip koleksi foto dengan password tanggal sekarang dan berformat "MMDDYYYY"
+
+**Pembahasan:**
+```
+#Mendapatkan tanggal hari ini untuk digunakan sebagai password zip dengan format bulan,tanggal,dan tahun 4 digit
+now=$(date +'%m%d%Y')
+#Mengzip file
+zip -rem Koleksi.zip Kucing_* Kelinci_* -P "$now"
+```
+- Mendapatkan tanggal sekarang dengan format "MMDDYYYY" dapat dilakukan dengan `$(date +'%m%d%Y')` yang lalu dioper dalam variabel now.
+- Menggunakan perintah zip dengan opsi sebagai berikut :
+  `-r` digunakan untuk meng-zip file secara rekursi
+  `-e` diperlukan agar zip dapat ter-Encrypt
+  `-m` digunakan untuk memindahkan spesifik file ke zip dan menghapus file yang telah dipindahkan
