@@ -550,11 +550,12 @@ fi
   ...
 ```
 - Hanya berbeda saat pemindahan `.log` file setelah pengunduhan ke folder tujuan `[nama]_DD-MM-YYYY`.
-- Dilakukan *renaming* dengan melakukan *traverse* seluruh file di folder sekarang, dan jika file memenuhi syarat dilakukan *renaming* sesuai format dengan bantuan *counter* nilai `$ke`, dan `$ke` *increament*.
+- Dilakukan *renaming* dengan melakukan *traverse* seluruh file di folder sekarang, dan jika file memenuhi syarat dilakukan *renaming* sesuai format dengan bantuan *counter* nilai `$ke`, dan `$ke` *increment*.
 
 **Bukti :**
 
 **Kendala :**\
+Cukup lama untuk menemukan metode filter 3a sehingga bisa dijalankan ke soal 3c, cukup bingung apakah menggunakan `crontab` atau hanya berdasarkan jalan mulai *script*.
 
 ### Soal 3.d
 **Deskripsi:**\
