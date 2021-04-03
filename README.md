@@ -554,6 +554,18 @@ fi
 
 **Bukti :**
 
+![Bukti3C-1](soal3/Bukti3C-1.png)
+
+![Bukti3C-2](soal3/Bukti3C-2.png)
+
+![Bukti3C-3](soal3/Bukti3C-3.png)
+
+![Bukti3C-4](soal3/Bukti3C-4.png)
+
+![Bukti3C-5](soal3/Bukti3C-5.png)
+
+![Bukti3C-6](soal3/Bukti3C-6.png)
+
 **Kendala :**\
 Cukup lama untuk menemukan metode filter 3a sehingga bisa dijalankan ke soal 3c, cukup bingung apakah menggunakan `crontab` atau hanya berdasarkan jalan mulai *script*.
 
