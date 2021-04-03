@@ -1,61 +1,54 @@
 #!/bin/bash
 
-jumlah_kucing=`ls -dq Kucing_* | wc -l`
-echo $jumlah_kucing
-jumlah_kelinci=`ls -dq Kelinci_* | wc -l`
-echo $jumlah_kelinci
+PWD=`pwd`;
 
+folder_kucing=`ls -d Kucing_* | wc -l`
+folder_kelinci=`ls -d Kelinci_* | wc -l`
 
-if [ $jumlah_kucing -le $jumlah_kelinci ]
+if [ $folder_kucing -le $folder_kelinci ]
 then	
-	newfile="Kucing_$(date +"%m-%d-%Y")"
-	mkdir $newfile
+	newdir="Kucing_$(date +"%d-%m-%Y")"
+	mkdir $newdir
 
-	no=1
-	while [ $no -le 23 ]
-	 do
-		wget -a Foto.log -nv  https://l...content-available-to-author-only...r.com/320/240/kitten
-		no=$((no+1))
-	 done
-	mv Foto.log $newfile
+	for ((num=1 ; num<=23; num=num+1))
+	do
+		wget -a Foto.log -nv  https://loremflickr.com/320/240/kitten
+	done
+	mv Foto.log $newdir
 	md5sum * | sort | awk 'BEGIN{hash = ""} $1 == hash {print $2} {hash = $1}' | xargs rm
 
-	s=1
+	ke=1
 	for file in *
 	do
 		if [[ $file == *"kitten"* ]]
 		then
-			namafile=`printf "Kucing_%02d.jpg" $s`
+			namafile=`printf "Kucing_%02d.jpg" $ke`
 			mv $file $namafile
-			s=$((s+1))
-			mv *.jpg $newfile
-
+			ke=$((ke+1))
+			mv *.jpg $PWD/$newdir
 		fi
 	done
-elif [ $jumlah_kucing -gt $jumlah_kelinci ]
+elif [ $folder_kucing -gt $folder_kelinci ]
 then
-	newfile="Kelinci_$(date +"%m-%d-%Y")"
-	mkdir $newfile
+	newdir="Kelinci_$(date +"%d-%m-%Y")"
+	mkdir $newdir
 
-	no=1
-	while [ $no -le 23 ]
-	 do
-		wget -a Foto.log -nv  https://l...content-available-to-author-only...r.com/320/240/bunny
-		no=$((no+1))
-	 done
-	mv Foto.log $newfile
+	for ((num=1 ; num<=23; num=num+1))
+	do
+		wget -a Foto.log -nv  https://loremflickr.com/320/240/bunny
+	done
+	mv Foto.log $newdir
 	md5sum * | sort | awk 'BEGIN{hash = ""} $1 == hash {print $2} {hash = $1}' | xargs rm
 
-	s=1
+	ke=1
 	for file in *
 	do
 		if [[ $file == *"bunny"* ]]
 		then
-			namafile=`printf "Kelinci_%02d.jpg" $s`
+			namafile=`printf "Kelinci_%02d.jpg" $ke`
 			mv $file $namafile
-			s=$((s+1))
-			mv *.jpg $newfile
-
+			ke=$((ke+1))
+			mv *.jpg $PWD/$newdir
 		fi
 	done
 fi
