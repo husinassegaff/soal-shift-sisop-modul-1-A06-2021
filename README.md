@@ -150,7 +150,7 @@ Jan 31 23:25:18 ubuntu.local ticky: INFO Closed ticket [#9876] (blossom)
 Jan 31 23:35:40 ubuntu.local ticky: INFO Created ticket [#5896] (mcintosh)
 ```
 **Bukti   :**
-![Bukti1A](soal1/Bukti1A.png)
+![Bukti1A](soal1/Bukti1A.PNG)
 
 **Kendala :**\
 Kendala awal (secara umum) masih belum paham regex beserta penggunaan grep. Sehingga harus mencari dan mempelajari dokumentasinya, karena di modul tidak ada.
@@ -188,7 +188,7 @@ The ticket was modified while updating	 9
 Ticket doesn't exist	 7
 ```
 **Bukti   :**
-![Bukti1B](soal1/Bukti1B.png)
+![Bukti1B](soal1/Bukti1B.PNG)
 
 **Kendala :**\
 Tidak ada kendala dalam soal ini.
@@ -244,7 +244,7 @@ sri,2,2
 xlg,0,4
 ```
 **Bukti   :**
-![Bukti1C](soal1/Bukti1C.png)
+![Bukti1C](soal1/Bukti1C.PNG)
 
 **Kendala :**\
 Sebelumnya masih salah pada log info dan error user "ac", karena regex-nya hanya `INFO.*$i` dan `ERROR.*$i`, sehingga terdapat nama user yang lain mengundang kata "ac" yang juga terhitung.
@@ -277,7 +277,7 @@ The ticket was modified while updating   9
 Ticket doesn't exist     7
 ```
 **Bukti   :**
-![Bukti1D](soal1/Bukti1D.png)
+![Bukti1D](soal1/Bukti1D.PNG)
 
 **Kendala :**\
 Tidak ada kendala dalam soal ini.
@@ -301,7 +301,7 @@ done | sort >> user_statistic.csv;
 - Kemudian, hasilnya disimpan pada file **user_statistic.csv** dengan menggunakan **operator redirect** `>>` yang berfungsi untuk memasukkan hasilnya ke file tersebut
 
 **Bukti   :**
-![Bukti1E](soal1/Bukti1E.png)
+![Bukti1E](soal1/Bukti1E.PNG)
 
 **Kendala :**\
 Tidak ada kendala dalam soal ini.
@@ -492,8 +492,8 @@ done
 - Berikut untuk bukti eksekusinya,
 
 **Bukti :**
-![Bukti3A-1](soal3/Bukti3A-1.png)
-![Bukti3A-2](soal3/Bukti3A-2.png)
+![Bukti3A-1](soal3/Bukti3A-1.PNG)
+![Bukti3A-2](soal3/Bukti3A-2.PNG)
 
 **Kendala :**\
 Sebelumnya masih belum memahami soal 3a ini, terutama bagian penggunaan hash
@@ -533,9 +533,9 @@ echo "Moved to $current_date"
 - Dan yang terakhir, `* *` yang mana bintang pertama menunjukkan dilakukan di semua bulan dan bintang kedua menunjukkan dieksekusi pada semua hari tanpa terkecuali.
 
 **Bukti :**
-![Bukti3B-1](soal3/Bukti3B-1.png)
+![Bukti3B-1](soal3/Bukti3B-1.PNG)
 
-![Bukti3B-1](soal3/Bukti3B-2.png)
+![Bukti3B-1](soal3/Bukti3B-2.PNG)
 
 **Kendala :**\
 Tidak ada kendala
