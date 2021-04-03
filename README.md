@@ -149,6 +149,11 @@ Jan 31 22:58:55 ubuntu.local ticky: INFO Created ticket [#2461] (jackowens)
 Jan 31 23:25:18 ubuntu.local ticky: INFO Closed ticket [#9876] (blossom)
 Jan 31 23:35:40 ubuntu.local ticky: INFO Created ticket [#5896] (mcintosh)
 ```
+**Bukti   :**
+![Bukti1A](soal1/Bukti1A.png)
+
+**Kendala :**\
+Kendala awal (secara umum) masih belum paham regex beserta penggunaan grep. Sehingga harus mencari dan mempelajari dokumentasinya, karena di modul tidak ada.
 
 ### Soal 1.b
 **Deskripsi:**\
@@ -182,6 +187,11 @@ Permission denied while closing ticket	10
 The ticket was modified while updating	 9
 Ticket doesn't exist	 7
 ```
+**Bukti   :**
+![Bukti1B](soal1/Bukti1B.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ### Soal 1.c
 **Deskripsi:**\
@@ -233,6 +243,11 @@ rr.robinson,2,1
 sri,2,2
 xlg,0,4
 ```
+**Bukti   :**
+![Bukti1C](soal1/Bukti1C.png)
+
+**Kendala :**\
+Sebelumnya masih salah pada log info dan error user "ac", karena regex-nya hanya `INFO.*$i` dan `ERROR.*$i`, sehingga terdapat nama user yang lain mengundang kata "ac" yang juga terhitung.
 
 ### Soal 1.d
 **Deskripsi:**\
@@ -261,6 +276,11 @@ Permission denied while closing ticket  10
 The ticket was modified while updating   9
 Ticket doesn't exist     7
 ```
+**Bukti   :**
+![Bukti1D](soal1/Bukti1D.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ### Soal 1.e
 **Deskripsi:**\
@@ -280,6 +300,11 @@ done | sort >> user_statistic.csv;
 - Perbedaannya pada saat setelah melakukan *looping*, dilakukan sort secara *ascending* untuk mengurutkan hasilnya berdasarkan nama *user*
 - Kemudian, hasilnya disimpan pada file **user_statistic.csv** dengan menggunakan **operator redirect** `>>` yang berfungsi untuk memasukkan hasilnya ke file tersebut
 
+**Bukti   :**
+![Bukti1E](soal1/Bukti1E.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ---
 ## Soal 2 
@@ -455,9 +480,23 @@ do
 	fi
 done
 ```
+- inisiasi variabel **number** dengan diisi nilai 1 untuk digunakan sebagai indeks dalam perulangan ketika mengunduh gambar
+- Kemudian menggunakan while dengan kondisi `$number -le 23` atau nilai number <= 23, maka akan mengeksekusi unutk mengunduh gambar dan memasukkannya ke **Foto.log**
+- Lalu, setelah 23 foto selesai diunduh, maka dihitung hash dari setiap file foto menggunakan `md5sum` dan disorting menggunakan `sort`
+- Setelah itu, menggunakan awk dengan inisialisasi awal `hash = ""` atau hash diisi dengan string kosong yang tidak akan sesuai dengan hash apapun.
+- Kemudian, memeriksa setiap baris apabila `hash` bernilai sama dengan `$1`, yaitu hash file pada kolom pertama dari file sekarang (kolom kedua). Maka, akan diprint jika benar
+- Kemudian, pada akhir setiap langkah `hash` akan menyimpan hash dari file sekarang
+- Kemudian `xargs` berfungsi untuk menjadikan input dari awk yang ada sebagai argumen untuk `rm` atau remove file yang duplikat 
+- Setelah itu, melakukan perulangan kembali dengan inisiasi variabel **s** untuk indeksnya
+- Perulangan ini berfungsi untuk mengubah nama file yang terdapat kata `kitten` menjadi `Koleksi_%02d.jpg` yang mana **%d** merupakan **$s**
+- Berikut untuk bukti eksekusinya,
+
 **Bukti :**
+![Bukti3A-1](soal3/Bukti3A-1.png)
+![Bukti3A-2](soal3/Bukti3A-2.png)
 
 **Kendala :**\
+Sebelumnya masih belum memahami soal 3a ini, terutama bagian penggunaan hash
 
 ### Soal 3.b
 
@@ -494,8 +533,12 @@ echo "Moved to $current_date"
 - Dan yang terakhir, `* *` yang mana bintang pertama menunjukkan dilakukan di semua bulan dan bintang kedua menunjukkan dieksekusi pada semua hari tanpa terkecuali.
 
 **Bukti :**
+![Bukti3B-1](soal3/Bukti3B-1.png)
+
+![Bukti3B-1](soal3/Bukti3B-2.png)
 
 **Kendala :**\
+Tidak ada kendala
 
 ### Soal 3.c
 
