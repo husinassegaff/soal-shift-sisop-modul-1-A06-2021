@@ -40,7 +40,7 @@ Mengumpulkan informasi jenis log (ERROR/INFO), pesan log, dan username dari log 
 
 **Pembahasan:**
 
-```
+```bash
 grep -oP "(INFO.*)|(ERROR.*)" syslog.log 
 ```
 - Menggunakan `grep -oP` untuk mencari pola karakter yang diinginkan
@@ -156,7 +156,7 @@ Menampilkan semua pesan berjenis 'ERROR' beserta jumlah kemunculannya
 
 **Pembahasan:**
 
-```
+```bash
 grep -oP '(?<=ERROR).*(?=\ \()' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 1-2 > temps1b1.txt
 grep -oP '(?<=ERROR).*(?=\ \()' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 4-99 > temps1b2.txt
 paste -d '\t\t' temps1b2.txt temps1b1.txt
@@ -189,7 +189,7 @@ Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*.
 
 **Pembahasan:**
 
-```
+```bash
 printf "Username,INFO,ERROR\n"
 user=$(grep -oP "(?<=\().*(?=\))" syslog.log | sort | uniq)
 
@@ -239,7 +239,7 @@ xlg,0,4
 Menuliskan semua informasi dari soal 1.b dan dimasukkan ke dalam file error_message.csv
 
 **Pembahasan:**
-```
+```bash
 grep -oP '(?<=ERROR\ ).*?(?=\ \()' syslog.log | sort | uniq -c | sort -nr | cut -b 6-7 > temp1.txt
 grep -oP '(?<=ERROR\ ).*?(?=\ \()' syslog.log | sort | uniq -c | sort -nr | cut -b 9-50 > temp2.txt
 sed 's/$/ ,/' temp2.txt > temp3.txt
@@ -267,7 +267,7 @@ Ticket doesn't exist     7
 Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*, kemudian disimpan pada file **user_statistic.csv** dengan nama *user* diurutkan secara *ascending*.
 
 **Pembahasan:**
-```
+```bash
 printf "Username,INFO,ERROR\n" > user_statistic.csv
 user=$(grep -oP "(?<=\().*(?=\))" syslog.log | sort | uniq)
 
@@ -297,7 +297,7 @@ Mengetahui ID karyawan dengan *Profit Percentage* terbesar.
 
 **Pembahasan:**
 
-```
+```bash
 awk '
 BEGIN {FS = "\t";} 
 {
@@ -321,7 +321,7 @@ END {
 - Seluruh baris nantinya akan dicari *profit percentage*-nya dengan `profitPercentage = ($21 / ($18 - $21)) * 100;` dan di kembalikan ke variabel `profitPercentage`.
 - Kemudian nanti setiap baris akan dilakukan pengecekan melalui *conditional* dibawah.  Variabel `maxProfitPercentage` berisi **NULL** sehingga otomatis **saat pertama kali** akan terganti kan oleh `profitPercentage`, hal ini berjalan terus hingga baris akhir data.
 
-```
+```bash
         profitPercentage = ($21 / ($18 - $21)) * 100;
         if(maxProfitPercentage <= profitPercentage){
             maxProfitPercentage = profitPercentage;
@@ -337,6 +337,12 @@ Transaksi terakhir dengan profit percentage terbesar yaitu CA-2017-121559
 dengan persentase 100.00%
 ```
 
+**Bukti   :**
+
+![Bukti2A](soal2/Bukti2A.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ### Soal 2.b
 
@@ -344,13 +350,15 @@ dengan persentase 100.00%
 Mencari daftar nama pelanggan yang berasal dari Albuquerque yang pernah bertransaksi pada tahun 2017.
 
 **Pembahasan:**
-```
-(echo "Daftar nama customer di Alburquerque pada tahun 2017 antara lain:"
-awk -F "\t" '/Albuquerque/&&/.....-17/ NR > 1  {print$7}' Laporan-TokoShiSop.tsv | uniq) >> hasil.txt
+```bash
+(echo "Daftar nama customer di Alburquerque pada tahun 2017 antara lain:" ;
+awk -F "\t" '/Albuquerque/&&/.....-17/&&$3 ~ /.....-17/ NR > 1  {print$7}' Laporan-TokoShiSop.tsv | uniq) >> hasil.txt
 ```
 - Script `echo "..."` untuk memenuhi syarat format jawaban
 - Standar opsi awk `-F "\t"` menyatakan *filed separator (FS)* berupa `\t` alias `TAB`, sehingga tiap kolom ke-n akan menempati `$n`.
-- Bagian `/Albuquerque/&&/.....-17/` merupakan *regular expression* yang mensyaratkan bahwa dalam baris data harus terdapat nilai `Albuquerque` dan `.` berupa *wildcard* berupa karakter bebas, `.....-17` untuk memilih data dengan tahun transkasi 2017.
+- Bagian `/Albuquerque/&&/.....-17/&&$3 ~ /.....-17/` merupakan *regular expression* yang mensyaratkan bahwa dalam baris data harus terdapat nilai `Albuquerque` dan `.` berupa *wildcard* berupa karakter bebas. 
+- Ekspresi `.....-17` untuk menghimpun semua rekaman dengan tahun 2017 dan Albuquerque.
+- Ekspresi`$3 ~ /.....-17/` untuk filter terhadap `Tanggal Transaksi` dengan tahun transkasi 2017.
 - Perintah `{print$7}` akan mencetak bagian kolom ke 7 dari file `Laporan-TokoShiSop.tsv` dan disaring dengan *script bash* `| uniq` lalu masuk ke `hasil.txt` menghasilkan:
 - Tanda kurung di awal dan di akhiran agar dimasukan sekaligus ke `hasil.txt`
 
@@ -361,6 +369,12 @@ Benjamin Farhat
 David Wiener
 Susan Vittorini
 ```
+**Bukti   :**
+
+![Bukti2B](soal2/Bukti2B.png)
+
+**Kendala :**
+Masalah saat memilih spesifik kolom tahun transaksi 2017.
 
 ### Soal 2.c
 
@@ -378,7 +392,12 @@ Mencari segment customer dan jumlah transaksinya yang paling sedikit.
 Tipe segmen customer yang penjualannya paling sedikit adalah Home Office 
 dengan total transaksi 1783.
 ```
+**Bukti   :**
 
+![Bukti2C](soal2/Bukti2C.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ### Soal 2.d
 
@@ -397,9 +416,12 @@ Wilayah bagain (region) yang memiliki total keuntungan (profit) yang
 paling sedikit adalah Central dengan total keuntungan 39706 (Profit).
 ```
 
+**Bukti :**
 
-**Komentar:**\
-Cukup bingung apakah tiap sub soal menggunakan awk tersendiri apa harus *single* AWK. Terhambat saat ekstraksi nama yang unik.
+![Bukti2D](soal2/Bukti2D.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ---
 ## Soal 3 
