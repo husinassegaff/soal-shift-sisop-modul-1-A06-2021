@@ -40,7 +40,7 @@ Mengumpulkan informasi jenis log (ERROR/INFO), pesan log, dan username dari log 
 
 **Pembahasan:**
 
-```
+```bash
 grep -oP "(INFO.*)|(ERROR.*)" syslog.log 
 ```
 - Menggunakan `grep -oP` untuk mencari pola karakter yang diinginkan
@@ -156,7 +156,7 @@ Menampilkan semua pesan berjenis 'ERROR' beserta jumlah kemunculannya
 
 **Pembahasan:**
 
-```
+```bash
 grep -oP '(?<=ERROR).*(?=\ \()' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 1-2 > temps1b1.txt
 grep -oP '(?<=ERROR).*(?=\ \()' syslog.log | sort |  uniq -c | cut -b 6-99 | sort -nr | cut -b 4-99 > temps1b2.txt
 paste -d '\t\t' temps1b2.txt temps1b1.txt
@@ -189,7 +189,7 @@ Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*.
 
 **Pembahasan:**
 
-```
+```bash
 printf "Username,INFO,ERROR\n"
 user=$(grep -oP "(?<=\().*(?=\))" syslog.log | sort | uniq)
 
@@ -239,7 +239,7 @@ xlg,0,4
 Menuliskan semua informasi dari soal 1.b dan dimasukkan ke dalam file error_message.csv
 
 **Pembahasan:**
-```
+```bash
 grep -oP '(?<=ERROR\ ).*?(?=\ \()' syslog.log | sort | uniq -c | sort -nr | cut -b 6-7 > temp1.txt
 grep -oP '(?<=ERROR\ ).*?(?=\ \()' syslog.log | sort | uniq -c | sort -nr | cut -b 9-50 > temp2.txt
 sed 's/$/ ,/' temp2.txt > temp3.txt
@@ -267,7 +267,7 @@ Ticket doesn't exist     7
 Menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap *user*, kemudian disimpan pada file **user_statistic.csv** dengan nama *user* diurutkan secara *ascending*.
 
 **Pembahasan:**
-```
+```bash
 printf "Username,INFO,ERROR\n" > user_statistic.csv
 user=$(grep -oP "(?<=\().*(?=\))" syslog.log | sort | uniq)
 
@@ -297,7 +297,7 @@ Mengetahui ID karyawan dengan *Profit Percentage* terbesar.
 
 **Pembahasan:**
 
-```
+```bash
 awk '
 BEGIN {FS = "\t";} 
 {
@@ -321,7 +321,7 @@ END {
 - Seluruh baris nantinya akan dicari *profit percentage*-nya dengan `profitPercentage = ($21 / ($18 - $21)) * 100;` dan di kembalikan ke variabel `profitPercentage`.
 - Kemudian nanti setiap baris akan dilakukan pengecekan melalui *conditional* dibawah.  Variabel `maxProfitPercentage` berisi **NULL** sehingga otomatis **saat pertama kali** akan terganti kan oleh `profitPercentage`, hal ini berjalan terus hingga baris akhir data.
 
-```
+```bash
         profitPercentage = ($21 / ($18 - $21)) * 100;
         if(maxProfitPercentage <= profitPercentage){
             maxProfitPercentage = profitPercentage;
@@ -337,6 +337,12 @@ Transaksi terakhir dengan profit percentage terbesar yaitu CA-2017-121559
 dengan persentase 100.00%
 ```
 
+**Bukti   :**
+
+![Bukti2A](soal2/Bukti2A.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ### Soal 2.b
 
@@ -344,13 +350,15 @@ dengan persentase 100.00%
 Mencari daftar nama pelanggan yang berasal dari Albuquerque yang pernah bertransaksi pada tahun 2017.
 
 **Pembahasan:**
-```
-(echo "Daftar nama customer di Alburquerque pada tahun 2017 antara lain:"
-awk -F "\t" '/Albuquerque/&&/.....-17/ NR > 1  {print$7}' Laporan-TokoShiSop.tsv | uniq) >> hasil.txt
+```bash
+(echo "Daftar nama customer di Alburquerque pada tahun 2017 antara lain:" ;
+awk -F "\t" '/Albuquerque/&&/.....-17/&&$3 ~ /.....-17/ NR > 1  {print$7}' Laporan-TokoShiSop.tsv | uniq) >> hasil.txt
 ```
 - Script `echo "..."` untuk memenuhi syarat format jawaban
 - Standar opsi awk `-F "\t"` menyatakan *filed separator (FS)* berupa `\t` alias `TAB`, sehingga tiap kolom ke-n akan menempati `$n`.
-- Bagian `/Albuquerque/&&/.....-17/` merupakan *regular expression* yang mensyaratkan bahwa dalam baris data harus terdapat nilai `Albuquerque` dan `.` berupa *wildcard* berupa karakter bebas, `.....-17` untuk memilih data dengan tahun transkasi 2017.
+- Bagian `/Albuquerque/&&/.....-17/&&$3 ~ /.....-17/` merupakan *regular expression* yang mensyaratkan bahwa dalam baris data harus terdapat nilai `Albuquerque` dan `.` berupa *wildcard* berupa karakter bebas. 
+- Ekspresi `.....-17` untuk menghimpun semua rekaman dengan tahun 2017 dan Albuquerque.
+- Ekspresi`$3 ~ /.....-17/` untuk filter terhadap `Tanggal Transaksi` dengan tahun transkasi 2017.
 - Perintah `{print$7}` akan mencetak bagian kolom ke 7 dari file `Laporan-TokoShiSop.tsv` dan disaring dengan *script bash* `| uniq` lalu masuk ke `hasil.txt` menghasilkan:
 - Tanda kurung di awal dan di akhiran agar dimasukan sekaligus ke `hasil.txt`
 
@@ -361,6 +369,12 @@ Benjamin Farhat
 David Wiener
 Susan Vittorini
 ```
+**Bukti   :**
+
+![Bukti2B](soal2/Bukti2B.png)
+
+**Kendala :**
+Masalah saat memilih spesifik kolom tahun transaksi 2017.
 
 ### Soal 2.c
 
@@ -378,7 +392,12 @@ Mencari segment customer dan jumlah transaksinya yang paling sedikit.
 Tipe segmen customer yang penjualannya paling sedikit adalah Home Office 
 dengan total transaksi 1783.
 ```
+**Bukti   :**
 
+![Bukti2C](soal2/Bukti2C.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ### Soal 2.d
 
@@ -397,9 +416,12 @@ Wilayah bagain (region) yang memiliki total keuntungan (profit) yang
 paling sedikit adalah Central dengan total keuntungan 39706 (Profit).
 ```
 
+**Bukti :**
 
-**Komentar:**\
-Cukup bingung apakah tiap sub soal menggunakan awk tersendiri apa harus *single* AWK. Terhambat saat ekstraksi nama yang unik.
+![Bukti2D](soal2/Bukti2D.png)
+
+**Kendala :**\
+Tidak ada kendala dalam soal ini.
 
 ---
 ## Soal 3 
@@ -410,7 +432,7 @@ Cukup bingung apakah tiap sub soal menggunakan awk tersendiri apa harus *single*
 Mengunduh 23 gambar dari link https://loremflickr.com/320/240/kitten dengan menyimpannya ke file **Foto.log**. Juga memastikan tidak ada gambar yang sama serta menyimpan gambar dengan penamaan **Koleksi_XX**, contoh Koleksi_01, Koleksi_02
 
 **Pembahasan:**
-```
+```bash
 #!/bin/bash
 
 number=1
@@ -433,6 +455,9 @@ do
 	fi
 done
 ```
+**Bukti :**
+
+**Kendala :**\
 
 ### Soal 3.b
 
@@ -444,7 +469,7 @@ Agar lebih rapi, gambar yang telah diunduh beserta log, dipindahkan ke folder ya
 
 **Pembahasan:**
 #### **A. Bash**
-```
+```bash
 bash ./soal3a.sh
 
 current_date=$(date +"%d-%m-%Y")
@@ -461,28 +486,95 @@ echo "Moved to $current_date"
 - Begitu juga dengan file **Foto.log** juga dipindahkan ke folder tersebut dengan cara `mv ./Foto.log "./$current_date/"`
   
 #### **B. Crontab**
-```
+```bash
 0 20 1-31/7,2-31/4 * * bash ~/soal-shift-sisop-modul-1-A06-2021/soal3/soal3b.sh
 ```
 - Sesuai permintaan soal,script ini akan mengeksekusi script **soal3b.sh** dengan rincian `0 20` yang menunjukkan waktu jam 8 malam
 - Kemudian, `1-31/7,2-31/4` bermakna dijalankan pada tanggal 1 sampai tanggal 31 dengan aturan 7 hari sekali. Juga dari tanggal 2 sampai tanggal 31 dengan aturan 4 hari sekali.
 - Dan yang terakhir, `* *` yang mana bintang pertama menunjukkan dilakukan di semua bulan dan bintang kedua menunjukkan dieksekusi pada semua hari tanpa terkecuali.
-  
+
+**Bukti :**
+
+**Kendala :**\
+
 ### Soal 3.c
 
-**Deskripsi:**
+**Deskripsi:**\
 Selain mengunduh gambar kucing, juga mengunduh gambar kelinci pada link https://loremflickr.com/320/240/bunny dengan cara bergantian (bebas gambar mana yang didahulukan). Adapun untuk membedakan gambar kucing dan kelinci, maka dibuatkan folder dengan nama awalan **Kucing_DD-MM-YYY**Y dan **Kelinci_DD-MM-YY**
 
 **Pembahasan:**
+```bash
+PWD=`pwd`;
+
+folder_kucing=`ls -d Kucing_* | wc -l`
+folder_kelinci=`ls -d Kelinci_* | wc -l`
 ```
+- Membuat script yang secara bergantian mengunduh gambar kucing atau kelinci.
+- Acuan berdasarkan perbandingan jumlah folder kucing dengan kelinci, dimulai dengan kucing.
+- Dilakukan perhitungan jumlah masing masing folder dengan `wc` (*word count*) melalui `ls` degnan filter `-d`, `-d` digunakan untuk hanya *directory*, menghitung jumlah masing - masing *directory* kelinci dan kucing. Jika sama jumlahnya atau tidak ada maka dimulai dari kucing.
+- variabel `$PWD` digunakan untuk memindahkan file yang sudah di download ke folder tujuan relatif terhadap *root*.
+```bash
+if [ $folder_kucing -le $folder_kelinci ]
+then	
+	newdir="Kucing_$(date +"%d-%m-%Y")"
+	mkdir $newdir
+  ...
+elif [ $folder_kucing -gt $folder_kelinci ]
+then
+	newdir="Kelinci_$(date +"%d-%m-%Y")"
+	mkdir $newdir
+  ...
+fi
 ```
+- Jika salah satu kondisi tercapai maka akan dibuat folder dengan nama sesuai dengan format diminta.
+- Digunakan `$(date +"%d-%m-%Y")` untuk menarik tanggal saat itu sebagai nilai variabel lalu disematkan ke *string* nama folder. Bagian `%d` untuk *day*, `%m` untuk *month* dan `%Y` untuk *year*.
+- Skema pengunduhan dan filter sama dengan [soal 3.a](#soal-3a)
+```bash
+	  	for ((num=1 ; num<=23; num=num+1))
+	do
+		wget -a Foto.log -nv  https://loremflickr.com/320/240/kitten
+	done
+  mv Foto.log $newdir
+	...
+	ke=1
+	for file in *
+	do
+		if [[ $file == *"kitten"* ]]
+		then
+			namafile=`printf "Kucing_%02d.jpg" $ke`
+			mv $file $namafile
+			ke=$((ke+1))
+			mv *.jpg $PWD/$newdir
+		fi
+	done
+  ...
+```
+- Hanya berbeda saat pemindahan `.log` file setelah pengunduhan ke folder tujuan `[nama]_DD-MM-YYYY`.
+- Dilakukan *renaming* dengan melakukan *traverse* seluruh file di folder sekarang, dan jika file memenuhi syarat dilakukan *renaming* sesuai format dengan bantuan *counter* nilai `$ke`, dan `$ke` *increment*.
+
+**Bukti :**
+
+![Bukti3C-1](soal3/Bukti3C-1.png)
+
+![Bukti3C-2](soal3/Bukti3C-2.png)
+
+![Bukti3C-3](soal3/Bukti3C-3.png)
+
+![Bukti3C-4](soal3/Bukti3C-4.png)
+
+![Bukti3C-5](soal3/Bukti3C-5.png)
+
+![Bukti3C-6](soal3/Bukti3C-6.png)
+
+**Kendala :**\
+Cukup lama untuk menemukan metode filter 3a sehingga bisa dijalankan ke soal 3c, cukup bingung apakah menggunakan `crontab` atau hanya berdasarkan jalan mulai *script*.
 
 ### Soal 3.d
 **Deskripsi:**\
 Membuat script yang dapat memindahkan seluruh folder ke bentuk zip dengan nama **Koleksi.zip** dan menguncinya dengan password berupa tanggal saat itu, yakni MMDDYYYY
 
 **Pembahasan:**
-```
+```bash
 #Mendapatkan tanggal hari ini untuk digunakan sebagai password zip dengan format bulan,tanggal,dan tahun 4 digit
 now=$(date +'%m%d%Y')
 #Mengzip file
@@ -495,11 +587,18 @@ zip -rem Koleksi.zip Kucing_* Kelinci_* -P "$now"
 - `-m` digunakan untuk memindahkan spesifik file ke zip dan menghapus file yang telah dipindahkan
 - `-P "$now"` digunakan untuk menambahkan password dengan nilai password adalah isi dari variabel "now"
 
+**Bukti :**
+
+**Kendala :**\
+
 ### Soal 3.e
 
 **Deskripsi:**
 Lanjutan dari nomor **3d**, yaitu dilakukan perintah zip setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain waktu tersebut, tidak dilakukan zip dan filenya di-unzip
 
 **Pembahasan:**
+```bash
 ```
-```
+**Bukti :**
+
+**Kendala :**\
