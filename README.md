@@ -633,6 +633,10 @@ zip -rem Koleksi.zip Kucing_* Kelinci_* -P "$now"
 
 **Bukti :**
 
+![Bukti3D-1](soal3/Bukti3D-1.png)
+
+![Bukti3D-2](soal3/Bukti3D-2.png)
+
 **Kendala :**\
 Untuk mendapatkan tanggal hari ini sebagai password, sangat mudah ditemukan di internet. Namun mungkin untuk perintah zip perlu mencari beberapa option yang diperlukan
 agar dapat menyelesaikan sesuai dengan perintah soal
@@ -652,8 +656,9 @@ Lanjutan dari nomor **3d**, yaitu dilakukan perintah zip setiap hari kecuali sab
 
 ```
 - Diminta untuk membuat *crontab* untuk meng-*zip* dan meng-*unzip* folder foto.
-
 - Dengan *crontab* yang kedua menjalankan pertintah `unzip`, karna file dipasangkan enkripsi berupa tanggal terbuatnya file zip, digunakan *modifiers* `-P` dengan nilai berupa tanggal pada saat itu juga.
+- Opsi `-d` untuk lokasi tujuan *unzip*, kemudiam menghapus file `Koleksi.zip` dengan `rm`.
+
 **Bukti :**
 
 ![Bukti3E-1](soal3/Bukti3E-1.png)
