@@ -27,6 +27,7 @@ Jawaban soal praktikum Sistem Operasi modul 1.
   - [Soal 3.b](#soal-3b)
   - [Soal 3.c](#soal-3c)
   - [Soal 3.d](#soal-3d)
+  - [Soal 3.e](#soal-3e)
 
 ## Soal 1
 **[Source Code Soal 1](https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/main/soal1/soal1.sh)**
@@ -636,6 +637,10 @@ zip -rem Koleksi.zip Kucing_* Kelinci_* -P "$now"
 
 **Bukti :**
 
+![Bukti3D-1](soal3/Bukti3D-1.png)
+
+![Bukti3D-2](soal3/Bukti3D-2.png)
+
 **Kendala :**\
 Untuk mendapatkan tanggal hari ini sebagai password, sangat mudah ditemukan di internet. Namun mungkin untuk perintah zip perlu mencari beberapa option yang diperlukan
 agar dapat menyelesaikan sesuai dengan perintah soal
@@ -647,7 +652,22 @@ Lanjutan dari nomor **3d**, yaitu dilakukan perintah zip setiap hari kecuali sab
 
 **Pembahasan:**
 ```bash
+#di-zip
+0 7 * * 1-5 bash ~/soal-shift-sisop-modul-1-A06-2021/soal3/soal3d.sh
+
+#tidak di-zip & di-unzip
+0 18 * * 1-5 unzip -P "$(date +"%d%m%Y")" ~/soal-shift-sisop-modul-1-A06-2021/soal3/Koleksi.zip -d ~/soal-shift-sisop-modul-1-A06-2021/soal3/ && rm ~/soal-shift-sisop-modul-1-A06-2021/soal3/Koleksi.zip
+
 ```
+- Diminta untuk membuat *crontab* untuk meng-*zip* dan meng-*unzip* folder foto.
+- Dengan *crontab* yang kedua menjalankan pertintah `unzip`, karna file dipasangkan enkripsi berupa tanggal terbuatnya file zip, digunakan *modifiers* `-P` dengan nilai berupa tanggal pada saat itu juga.
+- Opsi `-d` untuk lokasi tujuan *unzip*, kemudiam menghapus file `Koleksi.zip` dengan `rm`.
+
 **Bukti :**
 
+![Bukti3E-1](soal3/Bukti3E-1.png)
+
+![Bukti3E-2](soal3/Bukti3E-2.png)
+
 **Kendala :**\
+Tidak ada kendala
