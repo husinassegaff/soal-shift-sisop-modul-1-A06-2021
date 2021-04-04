@@ -633,6 +633,8 @@ zip -rem Koleksi.zip Kucing_* Kelinci_* -P "$now"
 **Bukti :**
 
 **Kendala :**\
+Untuk mendapatkan tanggal hari ini sebagai password, sangat mudah ditemukan di internet. Namun mungkin untuk perintah zip perlu mencari beberapa option yang diperlukan
+agar dapat menyelesaikan sesuai dengan perintah soal
 
 ### Soal 3.e
 
