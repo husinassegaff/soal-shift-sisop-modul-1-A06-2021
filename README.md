@@ -191,7 +191,9 @@ Ticket doesn't exist	 7
 ![Bukti1B](soal1/Bukti1B.PNG)
 
 **Kendala :**\
-Tidak ada kendala dalam soal ini.
+Kendala hampir sama dengan 1a, masih belum mengenal grep dan regex dan baru tahu mengenai lookahead lookbehind dan sebagian besar waktu
+berkurang karena mencoba-coba dan mempelajari regex melalui *regex101.com*. Lalu sedikit bingung menemukan perintah yang cocok digunakan 
+agar dapat menyelesaikan soal sesuai dengan perintah, dan akhirnya menemukan perintah paste.
 
 ### Soal 1.c
 **Deskripsi:**\
@@ -280,7 +282,9 @@ Ticket doesn't exist     7
 ![Bukti1D](soal1/Bukti1D.PNG)
 
 **Kendala :**\
-Tidak ada kendala dalam soal ini.
+Hampir tidak ada kendala, namun mungkin sedikit sulit ketika mencoba menambahkan koma pada akhir kalimat di setiap barisnya yang kemudian
+setelah sekian lama menemukan perintah sed beserta cara penulisannya. selebihnya hampir sama dengan nomor sebelumnya, hanya mengubah output
+dari yang sebelumnya di terminal, sekarang ke file.
 
 ### Soal 1.e
 **Deskripsi:**\
