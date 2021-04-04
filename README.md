@@ -644,4 +644,9 @@ Lanjutan dari nomor **3d**, yaitu dilakukan perintah zip setiap hari kecuali sab
 ```
 **Bukti :**
 
+![Bukti3E-1](soal3/Bukti3E-1.png)
+
+![Bukti3E-2](soal3/Bukti3E-2.png)
+
 **Kendala :**\
+Tidak ada kendala
