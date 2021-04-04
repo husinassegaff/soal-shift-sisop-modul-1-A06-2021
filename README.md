@@ -458,6 +458,8 @@ Tidak ada kendala dalam soal ini.
 
 ### Soal 3.a
 
+**[Source Code Soal 3.a](https://https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/main/soal3/soal3a.sh)**
+
 **Deskripsi:**\
 Mengunduh 23 gambar dari link https://loremflickr.com/320/240/kitten dengan menyimpannya ke file **Foto.log**. Juga memastikan tidak ada gambar yang sama serta menyimpan gambar dengan penamaan **Koleksi_XX**, contoh Koleksi_01, Koleksi_02
 
@@ -513,6 +515,9 @@ Agar lebih rapi, gambar yang telah diunduh beserta log, dipindahkan ke folder ya
 
 **Pembahasan:**
 #### **A. Bash**
+
+**[Source Code Soal 3.b](https://https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/main/soal3/soal3b.sh)**
+
 ```bash
 bash ./soal3a.sh
 
@@ -530,6 +535,9 @@ echo "Moved to $current_date"
 - Begitu juga dengan file **Foto.log** juga dipindahkan ke folder tersebut dengan cara `mv ./Foto.log "./$current_date/"`
   
 #### **B. Crontab**
+
+**[Crontab Soal 3.b](https://https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/main/soal3/cron3b.tab)**
+
 ```bash
 0 20 1-31/7,2-31/4 * * bash ~/soal-shift-sisop-modul-1-A06-2021/soal3/soal3b.sh
 ```
@@ -546,6 +554,8 @@ echo "Moved to $current_date"
 Tidak ada kendala
 
 ### Soal 3.c
+
+**[Source Code Soal 3.c](https://https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/main/soal3/soal3c.sh)**
 
 **Deskripsi:**\
 Selain mengunduh gambar kucing, juga mengunduh gambar kelinci pada link https://loremflickr.com/320/240/bunny dengan cara bergantian (bebas gambar mana yang didahulukan). Adapun untuk membedakan gambar kucing dan kelinci, maka dibuatkan folder dengan nama awalan **Kucing_DD-MM-YYY**Y dan **Kelinci_DD-MM-YY**
@@ -618,6 +628,9 @@ fi
 Cukup lama untuk menemukan metode filter 3a sehingga bisa dijalankan ke soal 3c, cukup bingung apakah menggunakan `crontab` atau hanya berdasarkan jalan mulai *script*.
 
 ### Soal 3.d
+
+**[Source Code Soal 3.d](https://https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/main/soal3/soal3d.sh)**
+
 **Deskripsi:**\
 Membuat script yang dapat memindahkan seluruh folder ke bentuk zip dengan nama **Koleksi.zip** dan menguncinya dengan password berupa tanggal saat itu, yakni MMDDYYYY
 
@@ -646,6 +659,8 @@ Untuk mendapatkan tanggal hari ini sebagai password, sangat mudah ditemukan di i
 agar dapat menyelesaikan sesuai dengan perintah soal
 
 ### Soal 3.e
+
+**[Source Code Soal 3.e](https://https://github.com/husinassegaff/soal-shift-sisop-modul-1-A06-2021/blob/main/soal3/cron3e.tab)**
 
 **Deskripsi:**
 Lanjutan dari nomor **3d**, yaitu dilakukan perintah zip setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore. Selain waktu tersebut, tidak dilakukan zip dan filenya di-unzip
